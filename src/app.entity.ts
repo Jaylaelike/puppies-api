@@ -2,8 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { UserEntity } from './user/user.entity';
 
 @Entity('puppies')
 export class PuppyEntity {
@@ -12,6 +15,9 @@ export class PuppyEntity {
 
   @CreateDateColumn()
   created: Date;
+
+  @UpdateDateColumn()
+  updated: Date;
 
   @Column({
     type: 'text',
@@ -28,4 +34,7 @@ export class PuppyEntity {
 
   @Column()
   color: string;
+
+  @ManyToOne((type) => UserEntity, (adapter) => adapter.email)
+  adapter: UserEntity;
 }

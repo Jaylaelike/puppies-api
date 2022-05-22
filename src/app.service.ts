@@ -1,35 +1,56 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PuppyDTO } from './app.dto';
+import { PuppyDTO, PuppyRO } from './app.dto';
 import { PuppyEntity } from './app.entity';
+import { UserEntity } from './user/user.entity';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectRepository(PuppyEntity)
     private puppyRepository: Repository<PuppyEntity>,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
   ) {}
+
+  private toResponseObject(puppy: PuppyEntity): PuppyRO {
+    const responseObject: any = {
+      ...puppy,
+      adapter: puppy.adapter.toResponseObject(false),
+    };
+    return responseObject;
+  }
+
+  private ensureOwnership(puppy: PuppyEntity, userId: string) {
+    if (puppy.adapter.id !== userId) {
+      throw new HttpException('Incorrect user', HttpStatus.UNAUTHORIZED);
+    }
+  }
   getHello(): string {
     return 'Hello puppies!';
   }
 
-  async register(data: PuppyDTO): Promise<PuppyDTO> {
-    const puppy = await this.puppyRepository.create(data);
+  async register(userId: string, data: PuppyDTO): Promise<PuppyRO> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    const puppy = await this.puppyRepository.create({ ...data, adapter: user });
     await this.puppyRepository.save(puppy);
-    return puppy;
+    return this.toResponseObject(puppy);
   }
 
-  async read(id: string): Promise<PuppyDTO> {
+  async read(id: string): Promise<PuppyRO> {
     const puppy = await this.puppyRepository.findOne({
       where: {
         id,
       },
+      relations: ['adapter'],
     });
     if (!puppy) {
       throw new HttpException('Puppy not found', HttpStatus.NOT_FOUND);
     }
-    return puppy;
+    return this.toResponseObject(puppy);
   }
 
   async readAll(): Promise<PuppyDTO[]> {

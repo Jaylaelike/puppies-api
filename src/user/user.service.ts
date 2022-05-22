@@ -34,4 +34,9 @@ export class UserService {
     }
     return user.toResponseObject();
   }
+
+  async showAllUsers(): Promise<UserRO[]> {
+    const users = await this.userRepository.find();
+    return users.map((user) => user.toResponseObject(false));
+  }
 }
