@@ -8,6 +8,10 @@ Initialize a nestjs project `nest new project-name`
 
 ---
 
+#### Swagger Docs
+
+[swagger docs](localhost:7890/api/docs)
+
 #### Postman Documentation:
 
 [Docs](https://documenter.getpostman.com/view/15544476/UyxoiPgX)

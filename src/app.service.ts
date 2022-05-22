@@ -53,8 +53,12 @@ export class AppService {
     return this.toResponseObject(puppy);
   }
 
-  async readAll(): Promise<PuppyDTO[]> {
-    const puppies = await this.puppyRepository.find({});
+  async readAll(page = 1, newest?: boolean): Promise<PuppyDTO[]> {
+    const puppies = await this.puppyRepository.find({
+      take: 25,
+      skip: 25 * (page - 1),
+      order: newest && { created: 'DESC' },
+    });
     return puppies;
   }
 

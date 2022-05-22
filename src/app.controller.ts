@@ -10,6 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
   Logger,
+  Query,
 } from '@nestjs/common';
 import { PuppyDTO } from './app.dto';
 import { AppService } from './app.service';
@@ -40,8 +41,8 @@ export class AppController {
   }
 
   @Get('/all')
-  getPuppies() {
-    return this.appService.readAll();
+  getPuppies(@Query('page') page: number) {
+    return this.appService.readAll(page);
   }
 
   @Get(':id')
@@ -58,6 +59,7 @@ export class AppController {
     @User('id') user: string,
     @Body() data: Partial<PuppyDTO>,
   ) {
+    this.logData({ id, user, data });
     return this.appService.update(id, data);
   }
 

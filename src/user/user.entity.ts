@@ -10,6 +10,7 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserRO } from './user.dto';
 import { PuppyEntity } from 'src/app.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('user')
 export class UserEntity {
@@ -19,12 +20,14 @@ export class UserEntity {
   @CreateDateColumn()
   created: Date;
 
+  @ApiProperty()
   @Column({
     type: 'text',
     unique: true,
   })
   email: string;
 
+  @ApiProperty()
   @Column('text')
   password: string;
 

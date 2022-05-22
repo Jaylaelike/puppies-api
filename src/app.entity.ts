@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
@@ -19,6 +20,7 @@ export class PuppyEntity {
   @UpdateDateColumn()
   updated: Date;
 
+  @ApiProperty()
   @Column({
     type: 'text',
     unique: true,
@@ -26,12 +28,15 @@ export class PuppyEntity {
   })
   name: string;
 
+  @ApiProperty()
   @Column()
   age: number;
 
+  @ApiProperty()
   @Column()
   breed: string;
 
+  @ApiProperty()
   @Column()
   color: string;
 
