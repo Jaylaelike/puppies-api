@@ -61,3 +61,27 @@ POST `Create profile for a puppy`
   entities: [ 'dist/**/*.entity.js'],
 };
 ```
+
+---
+
+#### Production Database setup
+
+```
+require('dotenv').config();
+
+module.exports = {
+  url: process.env.DATABASE_URL,
+  type: 'postgres',
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  autoLoadEntities: true,
+  synchronize: true,
+  logging: true,
+  entities: ['dist/**/*.entity.js'],
+};
+```
+
+#### Heroku link
+
+> https://kute-puppies.herokuapp.com/puppies
