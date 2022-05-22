@@ -7,10 +7,10 @@ async function bootstrap() {
     abortOnError: false,
   });
   const options = new DocumentBuilder()
-    .setTitle('Todo Crud')
-    .setDescription('The todo API description')
+    .setTitle('Puppies Api')
+    .setDescription('The Puppies Api')
     .setVersion('1.0')
-    .addTag('todo')
+    .addTag('Puppies')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/docs', app, document);
