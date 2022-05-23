@@ -9,7 +9,7 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-  ) {}
+  ) { }
 
   async register(data: UserDTO): Promise<UserRO> {
     const { email } = data;
@@ -26,7 +26,7 @@ export class UserService {
     const { email, password } = data;
     const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
-      throw new HttpException('Invalid credentials', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Invalid credentials.', HttpStatus.BAD_REQUEST);
     }
     const isValid = await user.comparePassword(password);
     if (!isValid) {
