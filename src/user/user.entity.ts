@@ -24,11 +24,12 @@ export class UserEntity {
   @Column({
     type: 'text',
     unique: true,
+    default: '',
   })
   email: string;
 
   @ApiProperty()
-  @Column('text')
+  @Column({ type: 'text', default: '' })
   password: string;
 
   @OneToMany((type) => PuppyEntity, (puppy) => puppy.name)

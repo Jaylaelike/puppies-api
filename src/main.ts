@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     abortOnError: false,
   });
+  // app.setGlobalPrefix("api/v1");
   const options = new DocumentBuilder()
     .setTitle('Puppies Api')
     .setDescription('The Puppies Api')
